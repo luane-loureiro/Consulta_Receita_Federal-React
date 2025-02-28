@@ -1,0 +1,50 @@
+header{
+    display: flex;
+    flex-direction:roll;
+    align-items: center;
+    justify-content: space-between;
+    width: 75vw;
+    margin-bottom: .5rem;
+  
+  }
+  
+  header .header__brand img {
+    height: 100px;
+    width: auto;
+    transition: all 0.3s ease;
+    
+  }
+  
+  header .header__toggle {
+    padding-top: 0;
+    
+  }
+  
+  header #toggleTheme {
+    font-size: 1.8rem;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  header #toggleTheme:hover {
+    color: var(--icon-link-color);
+  }
+  
+  
+  @media screen and (max-width: 600px) {
+    header {
+        align-items: center;
+        margin: 1rem;
+        width: 90vw;
+        }
+    
+  
+    header .header__brand img {
+        height: 80px;
+    }
+  
+    header .header__toggle {
+        margin-top: 0.5rem;
+    }
+}
