@@ -1,0 +1,13 @@
+
+.cnpj-card-container {
+    max-width: 100%;
+    margin: 20px auto;
+    color: var(--button-text-color);
+  }
+
+  .cnpj-info {
+    background-color: var(--primary-color);
+    padding: 10px;
+    border-radius: .5rem;
+  }
+  

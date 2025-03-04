@@ -2,10 +2,29 @@ import React, { useState } from "react";
 import Button from "../Button";
 import { validateInput } from "../../utils/validateInput";
 import "./form.css";
+import ExibirResultado from "../ExibirResultado";
+import jsonData from "../../db/exemploCNPJ.json"; // Supondo que o arquivo JSON esteja na pasta data
 
 export default function Form({ formPlaceholder, formLabel, formName, formId }) {
-  const [inputValue, setInputValue] = useState(""); // Estado para armazenar o valor do input
+  const [inputValue, setInputValue] = useState(""); // Armazena o valor do input
+  const [showResults, setShowResults] = useState(false); // Controla a exibição dos resultados
+  const [result, setResult] = useState(null); // Armazena os dados da busca
 
+  // Função para buscar o dado no JSON
+  const searchInJson = (input) => {
+    const { type, value } = validateInput(input);  // Valida o input
+    let found = null;
+
+    if (type === 'CNPJ') {
+      // Busca por CNPJ
+      found = jsonData.find(item => item.cnpj.replace(/[^\d]/g, '') === value.replace(/[^\d]/g, ''));
+    } else if (type === 'Razão Social') {
+      // Busca por Razão Social
+      found = jsonData.find(item => item.razaoSocial.toLowerCase().includes(value.toLowerCase()));
+    }
+
+    return found;
+  };
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
@@ -14,10 +33,18 @@ export default function Form({ formPlaceholder, formLabel, formName, formId }) {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const { type, value } = validateInput(inputValue);
+    // Realiza a busca no JSON
+    const result = searchInJson(inputValue);
 
-    // Exibe um alerta com o tipo e o valor
-    alert(`Tipo: ${type}\nValor: ${value}`);
+    // Exibe os resultados ou uma mensagem de não encontrado
+    if (result) {
+      setResult(result);
+    } else {
+      alert('Não encontrado');
+    }
+
+    // Exibe o componente de resultado após o clique no botão
+    setShowResults(true);
   };
 
   return (
@@ -33,10 +60,11 @@ export default function Form({ formPlaceholder, formLabel, formName, formId }) {
           id={formId}
           placeholder={formPlaceholder}
           value={inputValue}
-          onChange={handleInputChange} 
+          onChange={handleInputChange}
         />
         <div className="mensagem-erro"></div>
         <Button title="Consultar" />
+        {showResults && <ExibirResultado result={result} />} {/* Passa os resultados para o componente ExibirResultado */}
       </fieldset>
     </form>
   );

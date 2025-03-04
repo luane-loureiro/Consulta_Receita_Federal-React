@@ -6,7 +6,6 @@ main {
     box-shadow: 7px 7px 15px rgba(0, 0, 0, 0.08);
     width: 75vw;
     height: auto;
-    overflow-y: hidden;
     padding: 1rem 0 auto 0;
     margin: 2rem auto;
   }

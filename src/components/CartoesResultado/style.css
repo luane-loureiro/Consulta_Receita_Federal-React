@@ -1,0 +1,66 @@
+.card-box {
+  width: 100%;
+  color: var(--text-color);
+  margin: 1rem 0;
+  padding-bottom: 0.5rem;
+}
+
+.card-title {
+  justify-self: center;
+  width: 100%;
+  background-color: rgb(250, 211, 218);
+  padding: 0.2rem;
+  border-radius: 1rem 1rem 0 0;
+  border: 2px solid white;
+}
+
+.card-title h3 {
+  color: var(--text-color);
+  font-size: 1.2rem;
+  padding: 0 1rem;
+}
+
+.card-details {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  gap: 0;
+}
+
+.card-details p {
+  margin: 0;
+}
+
+.card-info {
+  width: 50%;
+  justify-content: center;
+  background-color: white;
+  padding: 1rem 2rem;
+  border: 2px solid rgb(250, 211, 218);
+  box-sizing: border-box;
+}
+
+.label {
+  font-weight: bold;
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 768px) {
+  .card-info {
+    width: 100%; /* Em telas médias, cada "célula" ocupa a linha inteira */
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-title h3 {
+    font-size: 1rem;
+    padding: 0 0.5rem;
+  }
+  .card-info {
+    padding: 0.5rem 1rem;
+  }
+}
