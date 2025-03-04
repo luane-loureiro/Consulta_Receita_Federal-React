@@ -1,7 +1,8 @@
 import React from "react";
 import "./style.css";
 
-export default function CartaoCNPJ({
+export default function ResultCard({
+  cnpj,
   Razao,
   situacao,
   dataAbertura,
@@ -22,7 +23,12 @@ export default function CartaoCNPJ({
   return (
     <div className="card-box">
       <div className="card-title">
-        <h3>Cartão CNPJ</h3>
+          <h3>
+            <span className="label">{Razao}</span>
+          </h3>
+          <h3>
+            <span className="label">CNPJ:</span> {cnpj}
+          </h3>
       </div>
       <div className="card-details">
         <p className="card-info"><span className="label">Razão social:</span> {Razao}</p>

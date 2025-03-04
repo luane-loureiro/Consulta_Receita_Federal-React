@@ -1,5 +1,5 @@
 import React from "react";
-import CartaoCNPJ from "../CartoesResultado/cartaoCnpj";
+import ResultCard from "../ResultCard"
 import "./style.css";
 
 export default function ExibirResultado({ result }) {
@@ -9,11 +9,9 @@ export default function ExibirResultado({ result }) {
 
   return (
     <div className="cnpj-card-container">
-      <div className="cnpj-info">
-        <p><span className="label">CNPJ:</span> {result.cnpj}</p>
-      </div>
 
-      <CartaoCNPJ
+      <ResultCard
+        cnpj={result.cnpj}
         Razao={result.razaoSocial}
         situacao={result.situacaoCadastral}
         dataAbertura={result.dataAbertura}

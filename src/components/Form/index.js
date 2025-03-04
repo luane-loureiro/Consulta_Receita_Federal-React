@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Button from "../Button";
 import { validateInput } from "../../utils/validateInput";
-import "./form.css";
+import "./style.css";
 import ExibirResultado from "../ExibirResultado";
 import jsonData from "../../db/exemploCNPJ.json"; // Supondo que o arquivo JSON esteja na pasta data
 
@@ -12,15 +12,20 @@ export default function Form({ formPlaceholder, formLabel, formName, formId }) {
 
   // Função para buscar o dado no JSON
   const searchInJson = (input) => {
-    const { type, value } = validateInput(input);  // Valida o input
+    const { type, value } = validateInput(input); // Valida o input
     let found = null;
 
-    if (type === 'CNPJ') {
+    if (type === "CNPJ") {
       // Busca por CNPJ
-      found = jsonData.find(item => item.cnpj.replace(/[^\d]/g, '') === value.replace(/[^\d]/g, ''));
-    } else if (type === 'Razão Social') {
+      found = jsonData.find(
+        (item) =>
+          item.cnpj.replace(/[^\d]/g, "") === value.replace(/[^\d]/g, "")
+      );
+    } else if (type === "Razão Social") {
       // Busca por Razão Social
-      found = jsonData.find(item => item.razaoSocial.toLowerCase().includes(value.toLowerCase()));
+      found = jsonData.find((item) =>
+        item.razaoSocial.toLowerCase().includes(value.toLowerCase())
+      );
     }
 
     return found;
@@ -40,7 +45,7 @@ export default function Form({ formPlaceholder, formLabel, formName, formId }) {
     if (result) {
       setResult(result);
     } else {
-      alert('Não encontrado');
+      alert("Não encontrado");
     }
 
     // Exibe o componente de resultado após o clique no botão
@@ -48,23 +53,31 @@ export default function Form({ formPlaceholder, formLabel, formName, formId }) {
   };
 
   return (
-    <form id="consulta-Form" className="form-box" onSubmit={handleSubmit} noValidate>
+    <form
+      id="consulta-Form"
+      className="form-box"
+      onSubmit={handleSubmit}
+      noValidate
+    >
       <fieldset className="form-group">
         <label className="campo__etiqueta" htmlFor="consulta">
           {formLabel}
         </label>
-        <input
-          className="campo__escrita"
-          type="text"
-          name={formName}
-          id={formId}
-          placeholder={formPlaceholder}
-          value={inputValue}
-          onChange={handleInputChange}
-        />
-        <div className="mensagem-erro"></div>
-        <Button title="Consultar" />
-        {showResults && <ExibirResultado result={result} />} {/* Passa os resultados para o componente ExibirResultado */}
+        <div className="formButon-box">
+          <input
+            className="campo__escrita"
+            type="text"
+            name={formName}
+            id={formId}
+            placeholder={formPlaceholder}
+            value={inputValue}
+            onChange={handleInputChange}
+          />
+          <div className="mensagem-erro"></div>
+          <Button title="Consultar" />
+        </div>
+        {showResults && <ExibirResultado result={result} />}{" "}
+        {/* Passa os resultados para o componente ExibirResultado */}
       </fieldset>
     </form>
   );
