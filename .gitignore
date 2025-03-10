@@ -33,3 +33,6 @@ debug.log*
 
 # Configuração do sistema operacional
 Thumbs.db
+
+#git
+grkey.pub
