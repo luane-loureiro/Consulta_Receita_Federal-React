@@ -41,7 +41,7 @@ border: none;
 }
 
 .mensagem-erro {
-  color: red;
+  color: var(--mensagem-erro);
   margin-top: 0.5em;
 }
 

@@ -1,57 +1,45 @@
 import { useEffect, useState } from "react";
-import { validateInput } from "../../utils/validateInput";
+import { ValidateInput } from "../../utils/validateInput";
+import { BuscaCNPJ } from "../../utils/BuscaCNPJ"; 
 
-const ConectaAPI = ({ input }) => {
+
+const ConectaAPI = (props) => {
+  const { input = "" } = props || {};
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    if (!input) {
+      setResult(null);
+      return;
+    }
+
     const fetchData = async () => {
       setLoading(true);
-      const { type, value } = validateInput(input);
-      let found = null;
 
-      try {
-        const response = await fetch("https://api.exemplo.com/busca", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ tipo: type, valor: value }),
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          if (type === "CNPJ") {
-            found = data.find(
-              (item) => item.cnpj.replace(/[^\d]/g, "") === value.replace(/[^\d]/g, "")
-            );
-          } else if (type === "Razão Social") {
-            found = data.find((item) =>
-              item.razaoSocial.toLowerCase().includes(value.toLowerCase())
-            );
-          }
-        }
-      } catch (error) {
-        console.error("Erro ao buscar dados", error);
-      } finally {
+      const validation = ValidateInput(input);
+      if (!validation) {
+        setResult(null);
         setLoading(false);
+        return;
       }
 
+      // Simula um delay para imitar o tempo de resposta de uma API
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
+      // Chama a função BuscaCNPJ para procurar os dados
+      const found = BuscaCNPJ(input);
+
       setResult(found);
+      setLoading(false);
     };
 
-    if (input) {
-      fetchData();
-    }
-  }, [input]); // Reexecuta quando `input` mudar
+    fetchData();
+  }, [input]);
 
   if (loading) return <p>Carregando...</p>;
-
   return result ? (
-    <div>
-      <p>Resultado encontrado: {JSON.stringify(result)}</p>
-    </div>
+    <p>Resultado encontrado: {JSON.stringify(result)}</p>
   ) : (
     <p>Nenhum resultado encontrado</p>
   );

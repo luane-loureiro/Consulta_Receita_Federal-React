@@ -2,7 +2,7 @@
 :root[data-theme='dark'] {
   --primary-color: #D0005A;
   --primary-bg-color: #000;
-  --secondary-bg-color: #664b56;
+  --secondary-bg-color: #53464c;
   --title-color: #fff;
   --text-color: #fff;
   --text-color-footer: #000;
@@ -10,6 +10,7 @@
   --button-text-color: #fff;
   --icon-color: #fff;
   --icon-link-color: #D0005A;
+  --mensagem-erro: #ec7aab;
 }
 
 :root[data-theme='light'] {
@@ -23,6 +24,7 @@
   --button-text-color: #fff;
   --icon-color: #000;
   --icon-link-color: #D0005A;
+  --mensagem-erro: #ff0101;
 }
 
 body {

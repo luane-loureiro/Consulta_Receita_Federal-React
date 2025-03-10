@@ -1,84 +1,45 @@
-import React, { useState } from "react";
-import Button from "../Button";
-import { validateInput } from "../../utils/validateInput";
-import "./style.css";
+import { useState } from "react";
 import ExibirResultado from "../ExibirResultado";
-import jsonData from "../../db/exemploCNPJ.json"; // Supondo que o arquivo JSON esteja na pasta data
+import Button from "../Button"; 
+import "./style.css"; 
 
-export default function Form({ formPlaceholder, formLabel, formName, formId }) {
-  const [inputValue, setInputValue] = useState(""); // Armazena o valor do input
-  const [showResults, setShowResults] = useState(false); // Controla a exibição dos resultados
-  const [result, setResult] = useState(null); // Armazena os dados da busca
+const Form = ({ onSearch, formLabel, formPlaceholder, formName, formId }) => {
+  const [input, setInput] = useState("");
+  const [result, setResult] = useState(null);
+  const [showResults, setShowResults] = useState(false);
 
-  // Função para buscar o dado no JSON
-  const searchInJson = (input) => {
-    const { type, value } = validateInput(input); // Valida o input
-    let found = null;
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-    if (type === "CNPJ") {
-      // Busca por CNPJ
-      found = jsonData.find(
-        (item) =>
-          item.cnpj.replace(/[^\d]/g, "") === value.replace(/[^\d]/g, "")
-      );
-    } else if (type === "Razão Social") {
-      // Busca por Razão Social
-      found = jsonData.find((item) =>
-        item.razaoSocial.toLowerCase().includes(value.toLowerCase())
-      );
-    }
-
-    return found;
-  };
-
-  const handleInputChange = (event) => {
-    setInputValue(event.target.value);
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    // Realiza a busca no JSON
-    const result = searchInJson(inputValue);
-
-    // Exibe os resultados ou uma mensagem de não encontrado
-    if (result) {
-      setResult(result);
-    } else {
-      alert("Não encontrado");
-    }
-
-    // Exibe o componente de resultado após o clique no botão
+    const res = onSearch(input);
+    setResult(res);
     setShowResults(true);
   };
 
   return (
-    <form
-      id="consulta-Form"
-      className="form-box"
-      onSubmit={handleSubmit}
-      noValidate
-    >
-      <fieldset className="form-group">
-        <label className="campo__etiqueta" htmlFor="consulta">
-          {formLabel}
-        </label>
-        <div className="formButon-box">
-          <input
-            className="campo__escrita"
-            type="text"
-            name={formName}
-            id={formId}
-            placeholder={formPlaceholder}
-            value={inputValue}
-            onChange={handleInputChange}
-          />
-          <div className="mensagem-erro"></div>
-          <Button title="Consultar" />
-        </div>
-        {showResults && <ExibirResultado result={result} />}{" "}
-        {/* Passa os resultados para o componente ExibirResultado */}
-      </fieldset>
+    <form id={formId} name={formName} onSubmit={handleSubmit} className="form-box">
+      <label htmlFor={formId} className="campo__etiqueta">{formLabel}</label>
+      <div className="formButon-box">
+        <input
+          className="campo__escrita"
+          type="text"
+          id={formId}
+          name={formName}
+          placeholder={formPlaceholder}
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+        />
+        <Button title="Consultar" />
+      </div>
+      {showResults && (
+        result ? (
+          <ExibirResultado result={result} />
+        ) : (
+          <p className="mensagem-erro">Nenhum resultado encontrado</p>
+        )
+      )}
     </form>
   );
-}
+};
+
+export default Form;
